@@ -33,10 +33,10 @@ public class Main {
 
             switch (res) {
                 case "<":
-                    System.out.println(ResponseMessages.getOVER_RES());
+                    System.out.println(ResponseMessages.getUNDER_RES());
                     break;
                 case ">":
-                    System.out.println(ResponseMessages.getUNDER_RES());
+                    System.out.println(ResponseMessages.getOVER_RES());
                     break;
                 case "=":
                     System.out.println(ResponseMessages.getCORRECT_RES());
@@ -59,7 +59,7 @@ public class Main {
     }
 
     public static void sendReq(DataOutputStream out, Scanner keyboard) throws IOException {
-        System.out.print("Inserisci il tuo numero: ");
+        System.out.print(newLine() + "Inserisci il tuo numero: ");
         out.writeBytes(keyboard.nextLine() + newLine());
     }
 
