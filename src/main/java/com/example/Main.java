@@ -23,10 +23,8 @@ public class Main {
         do {
             // waiting --> get client's guess from keyboard
             // then --> sending the client's guess
-            sendReq(out, keyboard);
-
-            // waiting --> catching the server's response (the result of the client's guess)
-            res = catchRes(in);
+            // then --> waiting --> catching the server's response (the result of the client's guess)
+            res = validate(out, in, keyboard);
 
             // waiting --> catching the server's response (the number of needed attempts)
             String attempts = catchRes(in);
@@ -60,10 +58,26 @@ public class Main {
 
     public static void sendReq(DataOutputStream out, Scanner keyboard) throws IOException {
         System.out.print(newLine() + "Inserisci il tuo numero: ");
+        // validating --> must be convertible into an int
         out.writeBytes(keyboard.nextLine() + newLine());
     }
 
     public static boolean isCorrect(String res) {
         return res.equals(ResponseMessages.getGUESS_IS_CORRECT());
+    }
+
+    public static String validate(DataOutputStream out, BufferedReader in, Scanner keyboard) throws IOException {
+        boolean isError = false;
+        String serverRes;
+        do {
+            sendReq(out, keyboard);
+
+            serverRes = catchRes(in);
+            isError = serverRes.equals(ResponseMessages.getREQUEST_ERROR());
+            if (isError) 
+                System.out.println(ResponseMessages.getREQUEST_ERROR());
+        } while (isError);
+
+        return serverRes;
     }
 }
